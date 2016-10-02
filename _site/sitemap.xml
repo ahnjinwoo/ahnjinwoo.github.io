@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>/2016/10/03/your-blog-with-github-pages-and-jekyll</loc>
+<lastmod>2016-10-03T00:00:00+09:00</lastmod>
+</url>
+<url>
+<loc>/2016/10/02/hello-world</loc>
+<lastmod>2016-10-02T00:00:00+09:00</lastmod>
+</url>
+<url>
 <loc>/lessons/2011/12/29/jekyll-introduction</loc>
 <lastmod>2011-12-29T00:00:00+09:00</lastmod>
 </url>

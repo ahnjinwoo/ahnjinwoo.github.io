@@ -4,13 +4,44 @@
  <title>Jekyll Bootstrap</title>
  <link href="http://ahnjinwoo.github.io/atom.xml" rel="self"/>
  <link href="http://ahnjinwoo.github.io"/>
- <updated>2016-10-02T23:11:02+09:00</updated>
+ <updated>2016-10-03T00:16:32+09:00</updated>
  <id>http://ahnjinwoo.github.io</id>
  <author>
    <name>Jinwoo Ahn</name>
    <email>blah@email.test</email>
  </author>
 
+ 
+ <entry>
+   <title>Your Blog with GitHub Pages and Jekyll</title>
+   <link href="http://ahnjinwoo.github.io/2016/10/03/your-blog-with-github-pages-and-jekyll"/>
+   <updated>2016-10-03T00:00:00+09:00</updated>
+   <id>http://ahnjinwoo.github.io/2016/10/03/your-blog-with-github-pages-and-jekyll</id>
+   <content type="html">
+&lt;p&gt;#GitHub Pages와 Jekyll을 이용해서 블로그 만들기&lt;/p&gt;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Hello World</title>
+   <link href="http://ahnjinwoo.github.io/2016/10/02/hello-world"/>
+   <updated>2016-10-02T00:00:00+09:00</updated>
+   <id>http://ahnjinwoo.github.io/2016/10/02/hello-world</id>
+   <content type="html">
+&lt;p&gt;안진우&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;span class=&quot;lineno&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;#define &amp;lt;stdio.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;4&lt;/span&gt;     &lt;span class=&quot;n&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Hello world?&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;5&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;6&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;// 한글은 이렇게 보인다.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;7&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;한글이 제대로 나오나?&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Jekyll Introduction</title>
