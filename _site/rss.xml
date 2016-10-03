@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-        <title>Jekyll Bootstrap</title>
-        <description>Jekyll Bootstrap - Jinwoo Ahn</description>
+        <title>Jinwoo Ahn</title>
+        <description>Jinwoo Ahn - Jinwoo Ahn</description>
         <link>http://ahnjinwoo.github.io</link>
         <atom:link href="http://ahnjinwoo.github.io/rss.xml" rel="self" type="application/rss+xml" />
-        <lastBuildDate>Mon, 03 Oct 2016 00:16:32 +0900</lastBuildDate>
-        <pubDate>Mon, 03 Oct 2016 00:16:32 +0900</pubDate>
+        <lastBuildDate>Mon, 03 Oct 2016 00:26:35 +0900</lastBuildDate>
+        <pubDate>Mon, 03 Oct 2016 00:26:35 +0900</pubDate>
         <ttl>60</ttl>
 
 
