@@ -63,6 +63,13 @@ sudo gem install github-pages --no-rdoc --no-ri
 ```
 
 
+## bundler
+
+```
+sudo apt-get install bundler
+```
+
+
 ## Github
 
 ### 가입에서 clone까지
