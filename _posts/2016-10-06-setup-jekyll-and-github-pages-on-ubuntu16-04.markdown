@@ -1,17 +1,10 @@
 ---
 layout: post
-title:  "우분투 14.04에서 Jekyll과 Github Pages 설정하기"
-date:   2016-10-05 01:19:00 +0900
+title:  "우분투 16.04에서 Jekyll과 Github Pages 설정하기"
+date:   2016-10-06 01:15:00 +0900
 categories: setting jekyll
-permalink: /archivers/setting-Jekyll-ubuntu14
+permalink: /archivers/setting-Jekyll-ubuntu16
 ---
-
-
-# 서론
-블로그를 작성하기 위해서 가장 먼저 한 고민이 있다. 어디에서 시작하지?
-서비스 회사가 망하거나 내 게시물에 간섭하면? 호스팅 업체에 비용을 안 내서 블로그가 폐쇄되면? 백업 및 보안 업데이트를 깜빡했는데 해킹을 당해서 게시글이 증발하면?
-
-이리저리 알아본 결과 Github Pages를 이용해서 geek스럽게 블로그를 운영할 수 있다는 정보를 얻었고, Jekyll 이라는 친구와 함께 사용하는 방법을 배웠다. 그냥 이게 제일 내 마음에 들었다. 펜이 예뻐야 공부가 잘 되는 것은 아니지만...
 
 
 # 과정 1단계
@@ -25,18 +18,10 @@ sudo apt-get install git
 
 
 ## Ruby
-Ruby 2.x 버전이 필요하다.
+Ruby 2.x 버전, ruby-dev가 필요하다.
 
 ```
-sudo add-apt-repository ppa:brightbox/ruby-ng
-sudo apt-get update
-sudo apt-get install ruby2.2
-```
-
-github-pages 설치를 위해서 ruby-dev도 필요하다.
-
-```
-sudo apt-get install ruby2.2-dev
+sudo apt-get install ruby2.3 ruby2.3-dev
 ```
 
 
@@ -59,6 +44,7 @@ jekyll -v
 ## github-pages
 
 ```
+sudo apt-get install zlib1g-dev
 sudo gem install github-pages --no-rdoc --no-ri
 ```
 
