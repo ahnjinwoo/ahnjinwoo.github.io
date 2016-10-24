@@ -31,6 +31,7 @@ GStreamer Conference 2016을 다녀왔다.
 * 1.10 is scheduled to be released Really Soon Now
 
 ### New API - smaller bits
+
 * GstController: Dynamic parameter control subsystem이다. 동적으로 플러그인의 파라미터를 변경할 수 있다.
   이번 업데이트로 인해 절대값을 지정 가능하게 되었다.
 * Bus message를 통해 property change notifications을 얻을 수 있는 API 추가.
@@ -53,6 +54,7 @@ GStreamer Conference 2016을 다녀왔다.
   high-level용이 필요해서 GstPlayer를 만들었다.
 
 ### New features - Stream API
+
 우리가 멀티미디어 프레임워크이지만 사실 stream API는 없었음. 스트림의 기본적인 컨셉을 표현하는 그런 API는 없었음.
 
 * GstStream: type, caps, tags, etc.
@@ -61,7 +63,9 @@ GStreamer Conference 2016을 다녀왔다.
 위 API들이 추가된 덕분에 dynamic 시나리오를 더 표현할 수 있게 되었다. 무언가를 broadcast 하는 중에 갑자기 새로운 오디오 트랙이 나타났지만 오디오 스트림은 그대로라든지, 오디오 트랙 중 하나가 사라졌는데 비디오는 그대로 있다든지 하는 시나리오가 가능해졌다. 이제 stream을 재사용할 수 있고, 단 하나의 stream만 변경해서 stream의 collection을 구성할 수도 있다.
 
 ### New features - playbin3
+
 * parsebin
+  decodebin이랑 기본적으로 비슷한데 그냥 디먹스하고 parse한다.
 * decodebin3 / playbin3
   * dynamic streams
   * fast switching
@@ -69,7 +73,26 @@ GStreamer Conference 2016을 다녀왔다.
   * multiple external inputs (e.g. subs)
 * works fine even if plugins (demuxers, parsers, etc.) don't support the new streams stuff yet
 
+### New elements and plugins
 
+* webrtcdsp: echo cancellation element
+* FDK (Fraunhofer) AAC encoder and decoder
+  새로운 AAC 인코더, 디코더 등장
+* lv2 audio effects and generators (supersedes LADSPA)
+
+### New module: gstreamer-vaapi(Video Acceleration API)
+
+* now maintained upstream with GStreamer
+
+* released in lockstep with rest of GStreamer, tighter integration
+
+* driver whitelist: only intel and mesa by default
+
+* runtime feature checking
+
+* perf and stability improvements
+
+* vp9 encoding is ready for when the hardware for it comes out
 
 
 
