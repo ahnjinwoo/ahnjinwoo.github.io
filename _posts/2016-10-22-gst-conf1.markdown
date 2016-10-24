@@ -64,10 +64,12 @@ GStreamer Conference 2016을 다녀왔다.
 * parsebin
 * decodebin3 / playbin3
   * dynamic streams
-  *fast switching*
-  ** only once decoder per stream **
+  * fast switching
+  * only once decoder per stream
   * multiple external inputs (e.g. subs)
 * works fine even if plugins (demuxers, parsers, etc.) don't support the new streams stuff yet
+
+
 
 
 
