@@ -83,79 +83,105 @@ GStreamer Conference 2016을 다녀왔다.
 ### New module: gstreamer-vaapi (Video Acceleration API)
 
 * VAAPI(Video Acceleration API)란, 그래픽 카드의 GPU를 사용하여 고성능으로 video를 decode/encode 하는 것이다.
-
 * 이제 GStreamer upstream에서 maintain 된다. 예전보다 쉽고 빠르게 기능 추가가 가능해졌다.
-
 * 성능 및 안정성 향상
-
 * vp9 encoding 준비됨
 
 ### RTP/RTSP improvements
 
 * much improved retransmission (rtx) support
-
 * jitterbuffer fixes and performance improvements
-
 * RTSP server fixes
-
 * RFC 7273 clock and timing info distributed over SDP
   여러 디바이스가 동기화될 수 있게 하였다. 이런 동기화를 gstreamer 레벨에서 할 수도 있지만, RTP 레벨에서 할 수 있도록 하였다.
-
 * rtspclientsink, a new RTSP RECORD sink element in gst-rtsp-server
 
+### OpenGL improvements
 
+* qmlglsink now works on wayland and windows and the RPi
+* gl memory was rewritten
+  * enabled eglmemory
+  * iosurface memory
+  * PBOs
+  * generally more extensible
+* egl supports gl3 - 더 많은, 더 좋은 API 사용
+* gl 기반의 colorbalance, videoflip 엘리먼트 추가
+* gldeinterlace now works with GL ES
 
+### Other improvements
 
+* vulkan support
+* adaptive streaming improvements (clientside)
+  * HLS alternative renditions - multiple 오디오 트랙, multiple 비디오 트랙
+  * DASH trick modes
+* vp8/vp9 encoder now uses multiple threads
 
+### Future
 
-To add new posts, simply add a file in the `_posts` directory that follows the convention `YYYY-MM-DD-name-of-post.ext` and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+* dmabuf support for waylandsink + gst-vaapi (zerocopy)
+* EBU-TT-D TTML subtitle renderer + meta
 
-```ruby
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-```
+### Future: move more things out of -bad
 
-## EasyBook Advanced Functions ##
+* 일단 bad라는 말이 붙어 있으면, 사람들은 걱정한다.
+* 그리고 bad 중에서도 뭐가 좋은건지 뭐가 안 좋은건지 아무도 가르쳐주지 않는다.
+* 그래서 준비가 되었다 싶으면 최대한 bad에서 빼려고 한다.
+* move gl lib to base
+* move aggregator to base
+* rewrite muxers on top of aggregator
+* move more plugins to base/good (e.g. tsdemux?)
 
-You are using [EasyBook][github-easybook] the template from [laobubu.net](http://laobubu.net). Therefore some features are supported now:
+### Future: Documentation
 
-* **Pagination** is enabled.
-* **Disqus** or **多说** is ready.
-* **TOC** for posts is enabled.
-* **Profile** including your links and avatar on the sidebar.
-* *And more...*
+* old gstreamer.com SDK tutorials + docs have been made available under CC license by Fluendo
+  옛날 튜토리얼은 지금 업스트림이랑 꽤 많이 차이가 난다. 여기가 공식 사이트인 줄 알고 사람들이 들어가보고 따라해보다가 최신 버전이랑 안 맞기 때문에 자꾸 문제에 부딪치게 된다. 비록 오래된 튜토리얼이긴 하지만 그래도 잘 쓰여졌고, 꽤 도움이 많이 되기 때문에 여전히 사람들이 많이 방문하고 참고한다.
+* are being updated for 1.x and changes
+* will land on gstreamer.freedesktop.org very very soon
+  이제 1.x 버전에 맞추어 SDK 튜토리얼을 새롭게 작성하고 있고, 조만간 구버전을 대체할 것이다.
+  수많은 doc 링크도 정리해서 하나의 docs module로 merge할 예정이다.
 
-> **Tips:** You can disable Disqus or 多说 on posts/pages by adding `nocomments: true` into [YAML Front Matter][frontmatter].
+### Future: Examples
 
-EasyBook uses upaiyun CDN to make everyone lncluding Chinese visitors feel speedy. You can find it in `_includes/footer.html` and change it to your favorite CDN like Google CDN.
+* new gst-examples repository
+* we'll populate it slowly
 
-## Support me by... ##
+### Future: Build System
 
-### Add a link ###
+* experimental support for `Meson` has been merged
+  Meson이란?
+  * 오픈 소스 build system
+  * 아주 빠름
+  * 사용자 친화적
+* will enable better dev/deployment experience
+  * like MSVC/Visual Studio support
+* will take some time to mature, but strong momentum
+  * "gst-all" will land soon (name tbd), try it!
+* goal is to retire autotools
+  * there will be a transition period
+  * 현재 autotools에 의존한 스크립트도 많고, 많은 사람들이 빌드 시스템을 당장 바꾸기는 어려울 것이므로 시간이 걸릴 것임
 
-EasyBook does not make the footer heavy; the link to theme could be on `about.md`:
+### Room for improvement?
 
-> This website is using [laobubu](http://laobubu.net)'s theme: [EasyBook](https://github.com/laobubu/jekyll-theme-EasyBook)
+* adaptive streaming (DASH, HLS, etc.)
+  * fairly good client-side story, but lousy creation story - 버그가 많음
+* make it easier to write "simple servers"
+  * souphttpserversink
+  * rtspserversink
+  * etc.
+* windows, ios, android: more sink elements that work with the native UI toolkits like qmlglsink/gtksink etc.
 
-### Donate (PayPal or 支付宝) ###
+### What else should we do better?
 
-That's the best :smile: 
+* Developer Tools
+  * slow progress
+* Daily builds
 
-Please visit [http://laobubu.net/donate.html](http://laobubu.net/donate.html)
+### Also: we still need better docs!
 
-### Star and Fork on GitHub (free) ###
+* more docs, different docs (tutorials, howtos)
+  => new docs
+* demo code/apps written as examples
+  => gst-examples
+* GStreamer book
+  => 언제 나올 지 약속할 수 없다 :smile:
 
-Not going to donate? That's okay. You can also send out your precious star [on GitHub][github-easybook].
-
-## And Here We Go ##
-
-Check out the [Jekyll docs][jekyll] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll’s dedicated Help repository][jekyll-help].
-
-[jekyll]:      http://jekyllrb.com
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-help]: https://github.com/jekyll/jekyll-help
-[frontmatter]: http://jekyllrb.com/docs/frontmatter/
-[github-easybook]: https://github.com/laobubu/jekyll-theme-EasyBook
