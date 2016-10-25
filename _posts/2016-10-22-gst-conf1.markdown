@@ -80,19 +80,30 @@ GStreamer Conference 2016을 다녀왔다.
   새로운 AAC 인코더, 디코더 등장
 * lv2 audio effects and generators (supersedes LADSPA)
 
-### New module: gstreamer-vaapi(Video Acceleration API)
+### New module: gstreamer-vaapi (Video Acceleration API)
 
-* now maintained upstream with GStreamer
+* VAAPI(Video Acceleration API)란, 그래픽 카드의 GPU를 사용하여 고성능으로 video를 decode/encode 하는 것이다.
 
-* released in lockstep with rest of GStreamer, tighter integration
+* 이제 GStreamer upstream에서 maintain 된다. 예전보다 쉽고 빠르게 기능 추가가 가능해졌다.
 
-* driver whitelist: only intel and mesa by default
+* 성능 및 안정성 향상
 
-* runtime feature checking
+* vp9 encoding 준비됨
 
-* perf and stability improvements
+### RTP/RTSP improvements
 
-* vp9 encoding is ready for when the hardware for it comes out
+* much improved retransmission (rtx) support
+
+* jitterbuffer fixes and performance improvements
+
+* RTSP server fixes
+
+* RFC 7273 clock and timing info distributed over SDP
+  여러 디바이스가 동기화될 수 있게 하였다. 이런 동기화를 gstreamer 레벨에서 할 수도 있지만, RTP 레벨에서 할 수 있도록 하였다.
+
+* rtspclientsink, a new RTSP RECORD sink element in gst-rtsp-server
+
+
 
 
 
