@@ -1,0 +1,95 @@
+---
+layout: post
+title:  "Gstreamer Conference 3"
+date:   2016-10-29 18:55:00 +0900
+categories: Gstreamer
+---
+
+GStreamer Conference 2016을 다녀왔다.<br>
+10-11 October 2016 · Berlin, Germany
+
+
+# Processing : The new 1-0 Based video library for desktop and RPI with GoPro support (Andres Colubri and Gal Nissim, Processing Foundation)
+
+## Timeline of video
+history... 2016년부터 glVideo 개발 시작
+
+## JNA vs JNI
+GLVideo 
+Video lib for 프로세싱 using 1.x
+
+기존 JNA 기반 lib: buffers
+handled off from fake sink, ...
+
+
+## next
+* arbitrary pipelines
+* camera enum
+* window 지원
+
+## GoPro
+capture live video
+개미길 추적
+
+## GoPro part of GLVideo lib
+wifi + GoPro connect
+=> processing
+
+
+
+
+# Using Gstreamer for video Analytics: VCABridge (Julián Bouzas, VCA Technology)
+
+## using gst for video analytics
+사람들 움직이는거 tracking
+
+왼쪽/오른쪽/위/아래 움직임 counting
+
+사람 줄선거 카운팅. 몇명 queue 인가.
+
+## analytics SW: home made server
+
+## webUI polymer framework
+HLS for video streaming
+
+
+# GStreamer Element States: How do they work in detail? (Sebastian Dröge, Centricular)
+
+## async
+
+change-state() -> async
+async_start / async_done
+gstbin-state tracking
+losing state
+async
+
+## elements losing state
+밖에서 trigger 아니다
+파이프라인 내부에서 trigger
+
+## Live elements
+
+## mix live & async
+
+* state lock used inconsistantly (doc과 다름)
+
+* dedicated 스레드 -> 쉽게 async 구현.
+단순 코드.
+아무도 sync를 원하지 않는다. 싱크는 곧 blocking이니까.
+
+* NULL -> Ready
+백그라운드에서 준비.
+
+
+# How to work with dynamic pipelines using GStreamer (Jose Antonio Santos Cadenas, Kurento)
+
+## static pipelines
+gst-launch
+adding/removing elements while playing!
+
+dynamic linking / unlinking (중요)
+
+
+
+
+

@@ -228,14 +228,18 @@ glib에서, 특히 gstreamer에서는, 수많은 `transfer full API`를 볼 수 
 ### Future improvements
 
 * Better stack trace (file + line)
+
 Valgrind 처럼 보기 좋게 만들자.
 
 * GUI tracking alive objects?
+
 GUI 로 보기 좋게 만들자. 살아 있는 객체를 알아보기 쉽게.
 
 ### 질문: document가 어디에 있나요?
+
 gstreamer repository에서 gst core 내부에 모든 tracer에 대한 text 파일이 있고 예제도 있다.
 
 ### 질문: 성능은 어떤가요?
+
 아직 공식적으로 측정 안해봤다. 임베디드 디바이스에서 테스트 안해봤는데, 작은 시스템에서는 오버헤드가 있을 것으로 예상한다.
 
