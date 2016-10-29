@@ -12,7 +12,7 @@ GStreamer Conference 2016을 다녀왔다.<br>
 컨퍼런스장은 소박했다. 창고처럼 생긴 낮은 건물이었고 1층은 카페 겸 레스토랑으로 운영되고 있었다. 컨퍼런스장까지 힘들게 계단을 걸어 올라가니 창업지원센터 같은 느낌의 실내가 보였다. 큰 홀과 작은 방 2군데서 동시에 컨퍼런스가 진행되고, 참가자는 둘 중에 원하는 내용을 골라서 듣는 형태였다.
 
 
-## GStreamer State of the Union (Tim-Philipp Müller) ##
+## GStreamer State of the Union (Tim-Philipp Müller, Centricular)
 
 지난 12개월 동안의 진행 상황을 대략적으로 훑어보고 앞으로 어떤 일이 있을 것인가 얘기하는 시간이었다.
 
