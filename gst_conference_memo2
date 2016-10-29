@@ -1,0 +1,235 @@
+1. rust
+gobj -> 다 걷어낼거다
+새로 시작하는 사람들은 gobj를 배우고 싶어하지 않는다
+gst 2.0, 3.0에서는 다 rust로 전환 예정
+다른 메인테이너들은? 직접 물어봐라.  난 할거다
+servo에 기여? 시간나면 하고 싶다
+당장 element부터 러스트로 전환 시작해라. 할수있는 부분부터 부분적으로 점진적으로 전환하자.
+일단은 러스트가 promising하기 때문에 이걸로 계속 갈 예정이다
+
+2. 홀로그래픽
+언리얼 엔진 롤러코스터 탔는데 멀미 25분 동안 했다
+삼성 기어랑 오큘러스, ... 헤드셋 HMDs 소개중
+그리고 또
+리눅스가 올라갔고 컴파일 가능한 제품소개..
+구글에서 만든 박스 소개
+
+common types of VR
+IMU tracking
+파노라믹 비디오
+
+external optical tracking
+
+room-scale tracking
+scan the room, calibration 필요
+
+interaction matters a lot
+
+natural interaction
+
+available vr drivers/apis for pc
+
+various vr driver feature buzzwords
+	async time warp
+	simultaneous multi-projection/single pass stereo
+	direct rendering
+
+osvr
+
+
+3. redHat발표. essence of gst.
+extend scope
+
+gstreamer
+스레드 너무 많아
+라킹 얼록 
+얼록 많아
+더 잘해보자
+
+플러그인은 많은 일을 한다
+버퍼랑 협상 디먹스 스테이트 변화 
+
+우리는 플러그인에서 여기에만 집중해보자: essence
+pad - processing - pad
+
+plugin api unify
+implementation
+sync/async
+hard real time
+extensible
+minimal
+
+options..(and its plugins)
+omx는 거의 대부분 지원하네
+
+아이디어
+인터페이스
+플러그인이랑 커뮤니케이트 할수있음
+스트링의 레퍼런스이다(uri)
+
+id map
+
+api is .h files
+
+the node
+ports are ids
+
+the formats
+
+port info
+
+the allocation
+포트 인포에 근거해서 앱은 버퍼랑 메타데이터를 할당한다
+버퍼 메모리를 할당하거나
+포트가 메모리를 할당하도록
+얼록 버퍼 
+유즈 버퍼
+
+스트리밍
+async/sync
+
+async
+데이터가 푸쉬되고 포트에서 풀 될 때 이벤트를 얻는다
+
+sync
+내가 푸쉬하고 패드에서 풀한다
+리턴 코드가 뭐할지 알려준다
+좀더 푸쉬하거나 풀하거나 고 백해서 configure/ready state로 가든가
+
+스트리밍
+버퍼를 인풋 포트에 푸쉬한다
+아웃풋 포트에서 버퍼를 풀해온다 (한방에 여러 포트를 풀함. 버퍼의 아이디 얻음)
+버퍼 id가 더 이상 사용되지 않을 때 이벤트
+
+포트 상태
+푸쉬/풀 할수 있는지 알려줌
+포트가 포맷을 가졌는지
+포트가 버퍼를 가졌는지 알랴줌
+
+points of interest
+callback은 이벤트용
+어떤 메서드는 어싱크 가능
+
+플랫폼 서포트
+메인루프 인티그레이션
+
+어떻게 쓰는가
+
+negotiation example
+
+호스트가 가운데에서 처리한다
+이쪽 포트에서 풀해와서 저쪽 포트에다가 인풋으로 푸쉬 넣어준다
+
+status
+
+
+============================================================================================
+
+<tools on air>
+
+broadcast
+
+what's difference to desktop video?
+low compression or raw
+high data rates
+
+relevant video codecs
+
+broadcast formats in gst
+
+gst support for SDI devices
+
+leffing live mixing field trial
+
+====================================================
+
+<new gst api>
+playbin3
+
+streams
+higher level than elements and pads
+
+GstStream object
+GstStream obj
+created by any element that introduces a new stream
+
+gststreamcollection
+manifest에 뭘 다운받을지 기재됨
+
+sending gststreamcollection
+
+GST_EVENT_STREAM_COLLECTION
+업스트림에 어떤 possible stream이 잇는가
+
+GST_MESSAGE_STEAM_COLLECTION
+
+selecting streams
+GST_EVENT_SELECT_STREAMS
+
+DYNAMICC streams, what about pads?
+우리가 애드/리무브 패드 언제 어느때나 한다고 쳐보자
+한 비디오/오디오 스트림이 있다
+자막도 넣자
+패드를 다이나믹하게 넣자
+자막도 넣고
+업스트림에서 변화가 날아온다
+티비볼 때 이런 일이 일어난다
+영화보다가 언어 변경할 때 오디오 추가비용이나 자막 추가비용을 받느 다고 쳐보자
+다이나믹하게 패드를 애드해야 한다
+특정 엘리먼트의 패드를 업데이트해야 하지
+애플리케이션 0.10 이때 패드수 변화 추가되엇다고?
+새 패드를 추가한다 이미 present한 것을
+2개의 비디오 1개의 오디오 / 3개의 패드
+기존의 2개의 패드를 없애고 새로운 패드 추가한다?
+
+
+Downside of historical behaviour
+새로운 스트림을 추가제거할려고 하면 break한다
+두 키프레임 사이에 전송한다면
+그리고 엔드오브 스트림이라고 한다면
+비디오 버퍼 중간에
+디코더는 넥스트 키프레임을 알아야 하는데
+브레이크 당함
+기존 behaviour break하지 않으려면
+
+
+
+indicate you can handle new behaviour
+you can partial add/remove pad
+이런일 하기 위한 전제조건: 
+post collection on the bus 해두면 된다
+
+예제: tsdemux
+mpeg-ts는 스트리밍 포맷
+뉴 컬렉션 만들고 모든 스트림이 들어잇고 그걸 위로 보내주면 끝
+
+디코드빈2에서 문제 : gap이 생김. blitch?
+새 비디오 패드
+키프레임 필요해 레퍼런스 필요해
+
+플레이빈3: 
+멀티플 디코더 필요없어
+same 디코더를 쓴다
+
+================================================================================================================
+
+
+testbed... qa
+
+objective approach
+hybrid approach
+
+methodology
+
+gst rtp server pipeline
+rtp stream을 만드는것 너무 어렵다
+gst rtp client pipeline
+
+testbed output
+
+gst for quality assessment testbed
+
+vlc vod vs gstreamer for quality assessment testbed
+
+
+

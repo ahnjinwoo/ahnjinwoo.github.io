@@ -1,0 +1,347 @@
+
+15:40 - 
+HLS Alternate Renditions (Centricular)
+
+HTTP Live streaming
+
+invented by apple
+standard http request
+RTSP/RTP
+flash media streaming
+DASH
+
+
+HLS playback
+	manifest
+	variants
+
+
+Alternate Renditions
+	manifest extension
+	EXT-X-MEDIA groups
+
+protocol notes
+	audio-only streams
+	subtitle fragment lengths don't need to match	
+	variants should provide the same audio tracks
+	timestamps for matching up fragments
+
+
+오디오 스트림/subtitle 병렬로 돌아갈 때 문제가 생긴다..
+
+Implementation
+	bitrate measurement
+		stream amalgamation
+	WebVTT
+	Timing
+		pcr/pts parsing
+		audio streams
+		webVTT
+
+stream management / switching
+	preroll
+		when to expose/remove pads
+	subtitles
+		tendency to block at stream-selector
+		new core event (streamgroupdone) - the EOS you have when you're not having EOS.
+		doesn't entirely help :오디오 비디오 새로운 플레이그라운드로 가지만 자막은 그대로. 올드그룹 다운로드해도 유지해야 함
+
+stream management
+	low bitrate streams run ahead
+	interferes with switching and buffering: 오디오는 너무 빨리 온다. 비디오가 느리게 보인다
+
+comparison to dash
+	mpd manifest
+		more info at the manifest level
+	different terms
+		adaptations and representations
+	dash streams mp4 or mp2ts
+	switching variants doesn't change pads
+		unless set of streams changes
+
+Future>
+gststream and stream selection
+	pre-announding streams
+		stream collection
+	streams-aware flag
+		backwards compatibility
+	dynamic switching
+		subtitles
+
+
+playbin3 / decodebin3
+	hlsdemux inside decodebin3 is streams-aware
+	decodebin3 to aggregate stream collections & proxy stream select
+	stream selection enables subtitles
+	streams-aware enables arbitrary pad additionremoval
+	pad lifetimes independent of each other
+
+
+
+
+QnA>
+
+currently hls 어디서 사용되나
+	애플 디벨로퍼 컨퍼런스
+	유튜브 
+	넷플릭스
+	ios device
+	
+mpeg dash
+매니페스트가 정보를 많이 가짐 
+타이밍 인포
+세그먼트에서 실제 타임스탬프를 안다
+
+
+=====================================================================================================
+
+<mpeg-dash, adaptive streaming, trick mode>
+adaptive streaming
+mpeg-dash - dynamic adaptive streaming over http
+-codec agnostic: h.264, ....
+-containers: mpeg-2 ts, isobmff(mp4)
+-independent downloadable fragments 1-5 sec long
+-adaptive bitrate & framerate
+-streams download over http 1.1
+
+서버가 보내고받고 하는게 아니다. 클라이언트-드리븐.
+클라이언트가 결정한다 이 스트림을 볼건가. 일시정지되기 약간 직전에 결정. 그리고 리줌.
+
+매니페스트 다운받으면 세팅한다. 
+
+
+classic trick modes
+- trick modes: speed and direction != x1
+- gstreamer API: gst_event_new_seek()
+- judging trick modes
+	- efficiency
+	-user experience
+	-complexity
+	-cost
+
+==simple trick modes
+-play it all but faster
+-download all
+-decode all
+-discard frames in a sink element
+-local playback with low speed is ok
+-what about the bandwidth
+-what about higher speeds: x30 ?
+-efficiency:none
+-user experience: perfect until it hits the limit
+-complexity: low
+
+==pause&seek trick modes
+pause playback ->
+	seek&flush
+	download
+	decode
+	present
+<- repeat
+
+-efficiency: moderate
+-user ex: moderate
+-complexity: moderate
+-cost: low
+
+Key frames only trick modes
+-download key frames only
+-perform the rest as in simple trick mode
+-every dash fragment starts with a key frame
+-add sidx&ssix box and use http get range request
+-should we add more i-frames when reencoding?
+-qtdemux is behind dashdemux
+-efficiency:high
+	다운로드 별로 안하고 필요한것만 다운하고 다른 아이프레임을 put 
+- user experience: moderate/poor
+-complexity: high
+-cost:low
+
+
+==efficient trick modes
+efficient trick modes
+- download separate (sub)representation per speed
+ holding only&all the frames which are going to be presented
+- perform the rest as in simple trick mode
+- frames discarding is done during stream encoding
+- bandwidth&processing power for speed x5 is the same as at speed x1
+- image quality stays (almost) the same
+- bitrate per frame at speed x5 is the same as at speed x1
+- img quality stays (almost) the same
+-why almost?
+	true for speed x1 vs x5
+	almost true for speed x1 vs x30 -> stream is I-frames only
+
+
+status
+-proof of concept stage done
+-choosing correct (sub)representation might be tricky
+-manifest's attributes:
+	@bandwidth
+	@frameRate
+	@maxPlayoutRate
+-efficiency: perfect
+-ux: perf
+-complex: moderate
+-cost: high
+
+demo
+cpu 사용률이 아주 높다. 300퍼까지 올라감
+
+QnA>
+캐싱 쓸수 있을거고
+밴드위스는 거의 같게 유지하면서 좋은 성능
+
+===============================================================================================================================================
+
+lightning talk
+1. 
+
+appication
+internet -(udp/rtp/rtsp)-> gst - (mpeg2 ts) -> black box
+
+problem
+-poor peformance compared to oem code
+-relatively complex pipelines
+
+solutions
+-udp: mpeg2 ts packets can simply be glued together
+-rtsp/rtp
+	-some elements are usually not required
+	-mpeg2 ts rtp packets can be glued together
+-suggestions
+	- write more optimized gstudpsrc that can glue packets together and create buffer lists?
+	-produce a streamlined gstrtpbin for 'regular', simple applications
+	-for http streams increase the default buffer size
+
+
+2. pygobject?
+python app
+rtpsession들이 위에 앱으로 스탯을 보냄
+
+stats안에는 뭐가 있나. gststruct
+
+아규먼트로 Gtype이 오면..
+gst structure를 상대할 때마다 pyg_type_lookup()에서 루프를 돌아서 느려진다.
+
+
+
+3. 
+왜 ...
+libva는 객체기반 api but in c, so no automatic lifecycle mgmt for your objects
+
+how to do it?
+1) g-ir-scanner
+2) post-process up the .gir to make it looks more gobjecty
+3) write new classses to handle lifecycles and pretty up the api.
+
+
+4. write sw synthesizers for gstreamer
+music
+
+base classes
+audiofilter (gst-plugins-base)
+audiosynth 
+
+components
+envelopes
+filters
+oscillators
+misc: combine, delay, tonconversion
+-> reuse + unit-tests + docs
+
+
+composition
+derive from baseclass
+contains components
+helpers to proxy gobj properities
+see also child-proxy
+
+elements today
+fx
+360 loc: audiodelay.c
+synth
+...
+
+todo
+upstreaming
+tempo context
+audiosynth baseclass
+note enums?
+more elements :)
+
+
+
+5. v4l2 gst elements update
+what's new
+what's next
+bufferpool/allocator rework
+dmabuf negotiation
+encoder support
+
+
+6. 
+안드로이드에서 뭐할까
+지스트 bunch of c code in jni 해야한다
+gobject에 바운드안된 모든 것
+실제 오브젝트에 바인딩해야 함
+create a bin
+
+7. measuring video capture latency (on raspberry pi)
+how long set operation take?
+라즈베리파이에서 hdmi로 보낸다
+비디오 타임스탬프를 그린다
+비디오에서
+맨바닥
+64칸
+라즈베리 파이가 비디오 프레임이 언제 생성됐다고 생각하는 타임스탬프 -> 박스그림. 실시간으로 변한다
+latency를 측정하는 그림
+
+8. smooth playback of adaptive video streams on raspberry pi with gst-mmal
+what were we trying to achieve?
+did we try gst-omx?
+issues:
+-performance with glimagesink was not good, dropped frames
+works better with eglglessink
+
+so we tried extending gst-omx...
+tried hacking new omxvideosink element
+worked well for non-adaptive streams, but still some issues
+
+so what's mmal thing?
+
+9. no time to wait
+ffv1 , atroska for preservation
+
+ffv1
+mathematically lossless video codec
+many color spaces
+high performance on standard cpu
+
+standardized by ietf
+ietf cellar working group
+draft of rfc standard
+
+10. gstvalidate for debugging
+
+11. chromium , mesa3d, MediaProcess
+크로미움 코드리뷰. gst backend 
+패치 올리면 . 패치 다른 도메인. 25%가 gstreamer 관련 내용.
+75%는 MediaProcess
+mojo
+
+12. how cross-compiled Kurento media server for windows
+lot of modules and dep
+makefile 직접 만들고 이것저것 tweak
+
+13. GstSeamCrop
+비디오에서 덜 중요한걸 잘라냄
+GstSeamCrop
+바닷가 사진에서 가족 간격 줄여냄
+
+14. trick mode in dashdemux/adaptivedemux
+while just downloading keyframes reduces the bandwith/cpu usage, it has issues
+idea is after each keyframe is downloaded we decide what to download next based on...
+improve adaptivedemux
+
+
