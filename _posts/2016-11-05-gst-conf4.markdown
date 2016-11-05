@@ -1,0 +1,58 @@
+---
+layout: post
+title:  "Gstreamer Conference 4"
+date:   2016-11-05 16:25:00 +0900
+categories: Gstreamer
+---
+
+GStreamer Conference 2016을 다녀왔다.<br>
+10-11 October 2016 · Berlin, Germany
+
+
+# The new GstStream API, design and usage (Edward Hervey, Centricular)
+
+새로운 decodebin3와 playbin3 element가 이제 GStreamer 1.10에 들어오면서, stream을 다루는 새로운 GstStream API가 추가되었다.
+새로운 GstStream API 덕분에 이제 "streams"의 사용이 모호하지 않고 명확하게 되었다.
+이번 시간에 다룰 내용은 다음과 같다.
+
+* Playbin3 and Decodebin3
+* New GstStream API
+* Purpose and Usage
+* Examples
+
+## Summary of past year
+
+* Decodebin3 and playbin3 have landed
+* CPU and memory improvements...
+  * 이제 더 이상 모든 것을 디코딩하지 않는다.
+  * 꼭 필요한 스트림만 디코딩하면 된다.
+  * 너무 많은 메모리를 버퍼링할 필요 없다.
+* ... but also more use-cases
+* And a new unified and generic API to deal with "Streams"
+
+## Streams
+
+* What you would say out loud
+  * A video stream, an audio stream, ...
+* Higher level than elements and pads
+* Cross-element concept
+  * "This stream is created by a demuxer, parsed by a parser, decoded by a decoder, goes through queues and is displayed in this sink"
+  * 여러 element에 걸쳐 있지만 결국은 하나의 스트림이다.
+* A new Object to describe that:
+  * GstStream
+
+## GstStream object
+
+* GstObject subclass (refcounted)
+  * id (same as STREAM_START stream-id)
+  * GstStreamType and GstStreamFlags
+    * GST_STREAM_TYPE_AUDIO
+    * GST_STREAM_TYPE_VIDEO
+    * GST_STREAM_TYPE_TEXT
+    * GstStreamType 은 단순한 enum 이다. 이거 덕분에 편해졌다. 오디오인지 비디오인지 알아내기 위해 caps 에게 물어볼 필요가 없다. 그냥 "이거는 오디오 스트림이야" 이렇게 말하면 되니까.
+  * GstCaps
+  * GstTagList
+* Collection of information stored in various places
+  * 완전히 새로운 개념이 아니다. 기존에 있던 것들을 합쳐서 GstStream 이라고 부를 뿐.
+
+
